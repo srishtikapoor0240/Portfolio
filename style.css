@@ -1,0 +1,35 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #020617;
+    color: #e2e8f0;
+    font-family: Arial, sans-serif;
+
+}
+.hero{
+    height: 100vh;
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items: center;
+    gap: 24px;
+}
+.character-wrap{
+    width: 420px;
+    max-width: 80vw;
+}
+.discover p{
+    font-size:28px;
+    color: #7dd3fc;
+    text-shadow: 0 0 10px #38bdf8;
+
+}
+.discover span{
+    display:block;
+    font-size:40px;
+    text-align:center;
+    color: #7dd3fc;
+}
