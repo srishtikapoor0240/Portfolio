@@ -1,74 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srishti | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srishti ✦ Hello!</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow: hidden; }
+
+    /* ===== LANDING LAYOUT ===== */
+    .landing {
+      width: 100vw; height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      align-items: center;
+      padding: 40px 80px 40px 60px;
+      position: relative;
+      gap: 40px;
+    }
+
+    /* ===== BACKGROUND SHAPES (solid, no gradient) ===== */
+    .bg-blob {
+      position: absolute; pointer-events: none; opacity: 0.13;
+      border-radius: 50%;
+    }
+    .blob-1 { width:380px; height:380px; background:var(--accent-pale);
+               top:-100px; left:-80px; }
+    .blob-2 { width:240px; height:240px; background:var(--surface-2);
+               bottom:-60px; right:120px; }
+    .blob-3 { width:150px; height:150px; background:var(--accent);
+               top:50px; right:300px; }
+
+    /* ===== CHARACTER SECTION ===== */
+    .character-col {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 20px; z-index: 10;
+    }
+
+    .character-wrapper {
+      width: 200px; height: 260px;
+      position: relative;
+      animation: floatChar 5s ease-in-out infinite;
+    }
+
+    @keyframes floatChar {
+      0%,100% { transform: translateY(0) rotate(-1.5deg); }
+      50%      { transform: translateY(-22px) rotate(1.5deg); }
+    }
+
+    /* ===================================================
+       HOW TO ADD YOUR SVG CHARACTER:
+       1. Find the <div class="svg-character"> tag below.
+       2. Remove the placeholder div inside it.
+       3. Paste your entire <svg ...>...</svg> code there.
+       4. Your character will float and animate automatically!
+       =================================================== */
+    .svg-character {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Placeholder (remove when you paste your SVG) */
+    .svg-placeholder {
+      width: 170px; height: 230px;
+      border: 2.5px dashed var(--accent-pale);
+      border-radius: var(--r-lg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--surface);
+      color: var(--text-muted);
+      font-family: var(--font-hand); font-size: 13px;
+      text-align: center; padding: 20px; gap: 10px;
+    }
+    .svg-placeholder .paste-icon { font-size: 32px; }
+
+    /* Speech bubble */
+    .speech-bubble {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 10px 18px;
+      font-family: var(--font-hand); font-size: 13px;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      position: relative; max-width: 170px; text-align: center;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute; top: -10px; left: 50%;
+      transform: translateX(-50%);
+      border: 7px solid transparent;
+      border-bottom-color: var(--border);
+    }
+    .speech-bubble::before {
+      content: '';
+      position: absolute; top: -8px; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-bottom-color: var(--white);
+      z-index: 1;
+    }
+    .bubble-texts { display: none; }
+    .speech-bubble .bubble-display { font-size: 13px; }
+
+    /* ===== CENTER SECTION ===== */
+    .center-col {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center; gap: 16px;
+      z-index: 10;
+    }
+
+    .greeting-row {
+      font-family: var(--font-hand); font-size: 1.2rem;
+      color: var(--text-muted); display: flex; align-items: center; gap: 8px;
+    }
+    .wave-emoji {
+      display: inline-block;
+      animation: waveHand 1.8s ease-in-out infinite;
+      transform-origin: 70% 70%; font-size: 1.4rem;
+    }
+    @keyframes waveHand {
+      0%,100% { transform: rotate(0deg); }
+      20%      { transform: rotate(25deg); }
+      40%      { transform: rotate(-8deg); }
+      60%      { transform: rotate(18deg); }
+    }
+
+    .name-display {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 700; line-height: 1.05; color: var(--text);
+    }
+    .name-display em { color: var(--accent); font-style: italic; }
+
+    .tagline {
+      font-family: var(--font-hand); font-size: 1.05rem;
+      color: var(--text-muted); max-width: 300px; line-height: 1.6;
+    }
+    .tagline strong { color: var(--accent); font-weight: normal; }
+
+    .center-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    .scroll-hint {
+      font-family: var(--font-hand); font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+      animation: hintBounce 2.4s ease-in-out infinite;
+      margin-top: 8px;
+    }
+    @keyframes hintBounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(5px); }
+    }
+
+    /* Decorative asterisk element */
+    .deco-asterisk {
+      position: absolute; font-size: 100px;
+      color: var(--surface-2); font-family: serif;
+      pointer-events: none; z-index: 1;
+      user-select: none;
+      animation: slowSpin 30s linear infinite;
+    }
+    .deco-asterisk-1 { top: 10%; left: 38%; opacity: 0.6; }
+    .deco-asterisk-2 { bottom: 15%; left: 55%; font-size: 60px; opacity: 0.4; animation-direction: reverse; }
+    @keyframes slowSpin { to { transform: rotate(360deg); } }
+
+    /* ===== JOURNAL SECTION ===== */
+    .journal-col {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 12px;
+      z-index: 10;
+    }
+
+    .journal-container {
+      perspective: 1200px; position: relative;
+    }
+
+    /* Sparkles around journal */
+    .sparkle {
+      position: absolute; color: var(--accent);
+      pointer-events: none; z-index: 20;
+      animation: sparkleFloat 3s ease-in-out infinite;
+    }
+    .sparkle:nth-child(1) { font-size:18px; top:-20px; right:24px; animation-delay:0s; }
+    .sparkle:nth-child(2) { font-size:12px; top:28px; right:-18px; animation-delay:0.6s; }
+    .sparkle:nth-child(3) { font-size:14px; bottom:24px; right:-22px; animation-delay:1.2s; }
+    .sparkle:nth-child(4) { font-size:10px; bottom:-16px; left:36px; animation-delay:1.8s; }
+    .sparkle:nth-child(5) { font-size:16px; top:10px; left:-20px; animation-delay:0.9s; }
+    @keyframes sparkleFloat {
+      0%,100% { opacity:0.4; transform:scale(1) rotate(0deg); }
+      50%      { opacity:1;   transform:scale(1.35) rotate(18deg); }
+    }
+
+    /* The journal itself */
+    .journal {
+      width: 260px; height: 340px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease;
+    }
+    .journal:hover { transform: translateY(-4px) rotateZ(1deg); }
+    .journal.open  { transform: translateY(-4px); }
+
+    /* Journal spine */
+    .journal-spine {
+      position: absolute; left:0; top:0; bottom:0;
+      width: 22px;
+      background: var(--accent-dark);
+      border-radius: 5px 0 0 5px;
+      z-index: 1;
+      box-shadow: inset -3px 0 6px rgba(0,0,0,0.12);
+    }
+
+    /* Open pages (behind the cover) */
+    .journal-pages {
+      position: absolute; inset:0;
+      background: #FFFCF9;
+      border-radius: 4px 16px 16px 4px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 0.4s ease 0.6s;
+      pointer-events: none;
+      box-shadow: var(--shadow-md), inset 0 0 40px rgba(58,36,25,0.04);
+    }
+    .journal.open .journal-pages {
+      opacity: 1; pointer-events: all;
+    }
+
+    /* Ruled lines texture (NOT ombre — repeating horizontal lines) */
+    .journal-pages::before {
+      content: '';
+      position: absolute; inset:0; pointer-events:none; z-index:0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 31px,
+        #F0DDD4 31px, #F0DDD4 32px
+      );
+    }
+    /* Margin line */
+    .journal-pages::after {
+      content: '';
+      position: absolute; left:34px; top:0; bottom:0;
+      width:1.5px; background: #F5C4AF; pointer-events:none; z-index:1;
+    }
+
+    .page-inner {
+      position: relative; z-index: 2;
+      padding: 28px 24px 24px 42px;
+      height: 100%; overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent-pale) transparent;
+    }
+    .page-inner::-webkit-scrollbar { width: 4px; }
+    .page-inner::-webkit-scrollbar-thumb { background: var(--accent-pale); border-radius:2px; }
+
+    .page-date {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-muted); margin-bottom: 14px;
+      letter-spacing: 0.06em;
+    }
+    .page-inner p {
+      font-family: var(--font-hand); font-size: 12.5px;
+      line-height: 2; color: #4A3020;
+      margin-bottom: 6px;
+    }
+    .page-inner .page-sign {
+      margin-top: 14px;
+      font-family: var(--font-display); font-style: italic;
+      font-size: 15px; color: var(--accent);
+    }
+
+    .journal-close-btn {
+      position: absolute; top: 10px; right: 14px;
+      background: none; border: none;
+      font-size: 16px; color: var(--text-muted);
+      cursor: none; z-index: 10;
+      display: none;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .journal.open .journal-close-btn { display: block; }
+    .journal-close-btn:hover { transform:rotate(90deg); color:var(--accent); }
+
+    /* The cover (front face, rotates open) */
+    .journal-cover {
+      position: absolute; inset:0;
+      background: var(--journal-cover);
+      border-radius: 4px 16px 16px 4px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      cursor: none;
+      transform-origin: left center;
+      transition: transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94),
+                  box-shadow 0.3s ease;
+      z-index: 5;
+      box-shadow:
+        -8px 0 0 var(--accent-dark),
+        -10px 2px 28px rgba(0,0,0,0.22),
+        6px 6px 28px rgba(58,36,25,0.2);
+      /* Dot texture (solid dots, not ombre) */
+      background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+    .journal.open .journal-cover {
+      transform: rotateY(-162deg);
+      box-shadow: none;
+    }
+
+    .cover-inner-border {
+      position: absolute; inset: 14px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 2px 12px 12px 2px;
+      pointer-events: none;
+    }
+
+    .cover-title {
+      font-family: var(--font-display); font-style: italic;
+      font-size: 1.9rem; color: #FFF5EE;
+      text-align: center; line-height: 1.25; z-index:1;
+    }
+    .cover-stars {
+      display: flex; gap: 10px; z-index:1;
+      font-size: 18px; color: rgba(255,255,255,0.55);
+    }
+    .cover-hint {
+      position: absolute; bottom: 22px;
+      font-family: var(--font-hand); font-size: 11px;
+      color: rgba(255,255,255,0.7); letter-spacing: 0.1em;
+      z-index:1;
+      animation: pulseHint 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseHint {
+      0%,100% { opacity: 0.6; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.04); }
+    }
+
+    /* Journal open label */
+    .journal-label {
+      font-family: var(--font-hand); font-size: 13px;
+      color: var(--text-muted); text-align: center;
+      transition: opacity 0.3s;
+    }
+  </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="character-wrap">
-            <svg class="animated-character" id="freepik_stories-thesis" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <g id="freepik--background-complete--inject-161" class="animable" style="transform-origin: 253.2px 187.16px;">
-                    <g id="el8sx26xy6p17"><rect x="30.42" y="286.45" width="69.22" height="55.34" style="fill: rgb(245, 245, 245); transform-origin: 65.03px 314.12px; transform: rotate(-10.6deg);" class="animable"></rect></g>
-                    <path d="M94,280.56l-.33.08-1,.19-3.69.72-13.93,2.67L26,293.52l.19-.28c3,16.19,6.52,34.75,10.21,54.39h0l-.31-.22,68-12.68-.17.26c-3-16.38-5.52-29.95-7.27-39.46-.86-4.75-1.54-8.48-2-11-.23-1.27-.4-2.24-.52-2.92s-.17-1-.17-1,.08.32.2,1l.57,2.87c.49,2.55,1.2,6.26,2.11,11,1.81,9.53,4.39,23.14,7.51,39.56l.05.21-.22.05L36.14,348l-.26.05-.05-.27h0c-3.66-19.64-7.13-38.2-10.15-54.4l0-.23.24-.05L75.16,284l13.89-2.54,3.67-.66.93-.16Z" style="fill: rgb(224, 224, 224); transform-origin: 65.04px 314.305px;" id="eli4t8zsnjisf" class="animable"></path>
-                    <g id="elwce8hynsrtm"><rect x="32.8" y="289.94" width="64.36" height="48.37" style="fill: rgb(235, 235, 235); transform-origin: 64.98px 314.125px; transform: rotate(-10.6deg);" class="animable"></rect></g>
-                    <polygon points="37.8 343.82 54.37 310.13 71.51 326.06 78.95 314.44 101.06 331.99 37.8 343.82" style="fill: rgb(224, 224, 224); transform-origin: 69.43px 326.975px;" id="elloaudw7myx" class="animable"></polygon>
-                    <path d="M73.19,302.87a5.07,5.07,0,1,1-5.92-4.05A5.07,5.07,0,0,1,73.19,302.87Z" style="fill: rgb(224, 224, 224); transform-origin: 68.2065px 303.803px;" id="elhnpnfuqfcrw" class="animable"></path>
-                    <g id="elbz5wl16k03t"><rect x="151.97" y="89.38" width="195.57" height="144.8" style="fill: rgb(250, 250, 250); transform-origin: 249.755px 161.78px; transform: rotate(-79.74deg);" class="animable"></rect></g>
-                </g>
-                <g id="freepik--Character--inject-161" class="animable" style="transform-origin: 127.317px 360.152px;">
-                    <path d="M104.45,395.84l17.73-7.16,13.54-35.37,18.05,9.3s-1.74,3.49-5.47,12.14c-1.45,3.33-6.22,12.64-8.16,17.17a23.86,23.86,0,0,1-21.27,14.45l-16.64.43Z" style="fill: rgb(255, 191, 157); transform-origin: 128px 380.055px;" class="animable"></path>
-                    <path d="M178,273.32l-15.52-6.17-4.06.47c-9.12,0-15.42,10.1-15.48,17.48-.06,8.22.18,18.24,1.48,24.29,2.63,12.17,13,13.18,13,13.18s-.21,6.49-.29,10.57l23.77-1.71,1.19-53.94A4.32,4.32,0,0,0,178,273.32Z" style="fill: rgb(255, 191, 157); transform-origin: 162.511px 300.145px;" class="animable"></path>
-                    <path d="M198.8,297.27c.07-5.68,1-11.34.74-17s-1.71-11.59-5.67-15.66S183,259,178.4,262.25l-1,4.84c1.82,21.9,1.58,44.15,3.4,66.05.24,2.88,2.57,5.49,3.88,8.06s3.94,4.7,6.82,4.52c3.77-.23,6.24-4.05,7.41-7.65C203.21,325.06,198.63,311,198.8,297.27Z" style="fill: rgb(38, 50, 56); transform-origin: 189.078px 303.113px;" class="animable"></path>
-                </g>
-            </svg>
-        </div>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot"  id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-        <div class="discover-btn">
-            <p class="glow-text">Discover Me</p>
-            <span class="arrow-down">↓</span>
-        </div>
-    </section>
+  <!-- Side Navigation -->
+  <nav class="side-nav">
+    <a href="index.html"      class="nav-tab active" title="Home">
+      <span class="nav-icon">🏡</span><span class="nav-label">Home</span>
+    </a>
+    <a href="summary.html"    class="nav-tab" title="About">
+      <span class="nav-icon">📖</span><span class="nav-label">About</span>
+    </a>
+    <a href="skills.html"     class="nav-tab" title="Skills">
+      <span class="nav-icon">⚡</span><span class="nav-label">Skills</span>
+    </a>
+    <a href="projects.html"   class="nav-tab" title="Projects">
+      <span class="nav-icon">💻</span><span class="nav-label">Projects</span>
+    </a>
+    <a href="experience.html" class="nav-tab" title="Experience">
+      <span class="nav-icon">✨</span><span class="nav-label">Experience</span>
+    </a>
+    <a href="contact.html"    class="nav-tab" title="Contact">
+      <span class="nav-icon">💌</span><span class="nav-label">Contact</span>
+    </a>
+  </nav>
 
-    <!-- Skills Section -->
-    <section class="skills-section" id="skills">
-        <h2 class="section-title">My Skills</h2>
-        <div class="skills-container">
-            <div class="skill-box" data-skill="Java">Java</div>
-            <div class="skill-box" data-skill="C++">C++</div>
-            <div class="skill-box" data-skill="C">C</div>
-            <div class="skill-box" data-skill="Python">Python</div>
-            <div class="skill-box" data-skill="JavaScript">JavaScript</div>
-            <div class="skill-box" data-skill="HTML/CSS">HTML/CSS</div>
-            <div class="skill-box" data-skill="React">React</div>
-            <div class="skill-box" data-skill="Node.js">Node.js</div>
-            <div class="skill-box" data-skill="Git">Git</div>
-            <div class="skill-box" data-skill="SQL">SQL</div>
-            <div class="skill-box" data-skill="MongoDB">MongoDB</div>
-            <div class="skill-box" data-skill="AWS">AWS</div>
-        </div>
-    </section>
+  <!-- Background Blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
 
-    <!-- Projects Section -->
-    <section class="projects-section" id="projects">
-        <div class="drawer">
-            <div class="folder-container">
-                <div class="folder" id="projectFolder">
-                    <div class="folder-tab"></div>
-                    <div class="folder-body">
-                        <h3>My Projects</h3>
-                    </div>
-                </div>
+  <!-- Decorative Asterisks -->
+  <div class="deco-asterisk deco-asterisk-1">✳</div>
+  <div class="deco-asterisk deco-asterisk-2">✳</div>
+
+  <!-- MAIN LANDING GRID -->
+  <main class="landing">
+
+    <!-- LEFT: SVG Character -->
+    <div class="character-col">
+      <div class="character-wrapper">
+        <div class="svg-character">
+          <!-- =============================================
+               👇 PASTE YOUR SVG CHARACTER CODE HERE 👇
+               (Replace the entire .svg-placeholder div
+               with your <svg ...>...</svg> code)
+               ============================================= -->
+          <div class="svg-placeholder">
+            <span class="paste-icon">🎨</span>
+            <span>Paste your SVG character here!</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rotating speech bubbles -->
+      <div class="speech-bubble">
+        <span class="bubble-display" id="bubbleText">Hi there! ✦</span>
+      </div>
+    </div>
+
+    <!-- CENTER: Name & CTA -->
+    <div class="center-col">
+      <div class="greeting-row">
+        <span class="wave-emoji">👋</span>
+        <span>Hey, I'm</span>
+      </div>
+
+      <h1 class="name-display">
+        Sri<em>shti</em>
+      </h1>
+
+      <p class="tagline">
+        CS + IoT student · <strong>builder of things</strong> ·
+        professional overthinker ·<br>chaotic creative ✦
+      </p>
+
+      <div class="center-ctas">
+        <a href="summary.html" class="btn">Discover More ↓</a>
+        <a href="contact.html" class="btn btn-outline">Say Hello 💌</a>
+      </div>
+
+      <div class="scroll-hint">
+        <span>✦</span> <span>open the journal first</span> <span>✦</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Journal -->
+    <div class="journal-col">
+      <div class="journal-container">
+        <!-- Sparkles -->
+        <span class="sparkle">✦</span>
+        <span class="sparkle">✿</span>
+        <span class="sparkle">✦</span>
+        <span class="sparkle">⁎</span>
+        <span class="sparkle">✦</span>
+
+        <div class="journal" id="journal">
+          <!-- Spine -->
+          <div class="journal-spine"></div>
+
+          <!-- Open pages (behind cover) -->
+          <div class="journal-pages">
+            <button class="journal-close-btn" onclick="closeJournal()" title="Close">✕</button>
+            <div class="page-inner">
+              <div class="page-date">~ a note for you ~</div>
+              <p>Hi, I'm Srishti — the person who somehow decided that building a whole website was a good idea despite having a perfectly functional habit of procrastinating.</p>
+              <p>When I'm not pretending to have my life together, I'm usually diving into projects, reading things I'll overthink later, or dancing like no one's recording (hopefully).</p>
+              <p>I love learning new skills, especially the ones I definitely didn't ask for but life decided to throw at me.</p>
+              <p>This space is basically a collection of my experiments, ideas, and occasional strokes of brilliance... mixed with a generous dose of chaos.</p>
+              <p>Enjoy exploring, and try not to judge — I'm still figuring it out one "What am I even doing?" at a time.</p>
+              <p>Thank you for being here and showing interest in learning more about me! You can navigate using the tabs on the right ✦</p>
+              <div class="page-sign">— Srishti ✦</div>
             </div>
+          </div>
+
+          <!-- Cover (rotates open on click) -->
+          <div class="journal-cover" id="journalCover" onclick="openJournal()">
+            <div class="cover-inner-border"></div>
+            <div class="cover-title">Discover<br>Me</div>
+            <div class="cover-stars">✦ ✦ ✦</div>
+            <span class="cover-hint">~ click to open ~</span>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <!-- Custom Cursor -->
-    <div class="custom-cursor"></div>
+      <p class="journal-label" id="journalLabel">
+        a little note from me ✦
+      </p>
+    </div>
 
-    <script src="script.js"></script>
+  </main>
+
+  <script src="script.js"></script>
+  <script>
+    // ---- JOURNAL ----
+    const journal = document.getElementById('journal');
+    const label   = document.getElementById('journalLabel');
+
+    function openJournal() {
+      journal.classList.add('open');
+      label.textContent = 'scroll to read more ↓';
+    }
+    function closeJournal() {
+      journal.classList.remove('open');
+      label.textContent = 'a little note from me ✦';
+    }
+
+    // ---- ROTATING SPEECH BUBBLES ----
+    const messages = [
+      'Hi there! ✦',
+      'I love to code! 💻',
+      'Coffee ☕ = fuel',
+      'Let\'s build things!',
+      'IoT + AI nerd 🤖',
+      'I dance too! 💃'
+    ];
+    let msgIdx = 0;
+    const bubbleEl = document.getElementById('bubbleText');
+    setInterval(() => {
+      bubbleEl.style.opacity = '0';
+      setTimeout(() => {
+        msgIdx = (msgIdx + 1) % messages.length;
+        bubbleEl.textContent = messages[msgIdx];
+        bubbleEl.style.opacity = '1';
+      }, 300);
+    }, 2600);
+    bubbleEl.style.transition = 'opacity 0.3s ease';
+  </script>
 </body>
 </html>
