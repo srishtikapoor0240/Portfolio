@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srishti ✦ About Me</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== DOODLES ===== */
+    .doodle svg { display:block; }
+
+    /* ===== SUMMARY CARD ===== */
+    .summary-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 36px 40px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      margin-bottom: 48px;
+      overflow: hidden;
+    }
+    .summary-card::before {
+      content: '';
+      position: absolute; left:0; top:0; bottom:0;
+      width: 5px;
+      background: var(--accent);
+      border-radius: 3px 0 0 3px;
+    }
+    .summary-card p {
+      font-size: 15px; line-height: 1.85;
+      color: var(--text);
+    }
+    .summary-card .floating-star {
+      position: absolute; right:28px; top:24px;
+      font-size: 28px; color: var(--accent-pale);
+      animation: spinStar 8s linear infinite;
+    }
+    @keyframes spinStar { to { transform: rotate(360deg); } }
+
+    /* ===== EDUCATION SECTION ===== */
+    .edu-timeline {
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 56px;
+    }
+    .edu-timeline::before {
+      content: '';
+      position: absolute; left: 9px; top:0; bottom:0;
+      width: 2px; background: var(--border);
+    }
+
+    .edu-item {
+      position: relative;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .edu-item.visible { opacity:1; transform:translateX(0); }
+
+    .edu-dot {
+      position: absolute; left: -31px; top: 6px;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--accent-pale);
+    }
+
+    .edu-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .edu-card:hover { box-shadow: var(--shadow-md); transform: translateX(6px); }
+
+    .edu-school {
+      font-family: var(--font-display); font-size: 1.05rem;
+      font-weight: 600; color: var(--text); margin-bottom: 4px;
+    }
+    .edu-degree {
+      font-size: 14px; color: var(--accent-dark); margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .edu-meta {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+      align-items: center;
+    }
+    .edu-meta .badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px; padding: 3px 12px;
+      color: var(--accent-dark); font-weight: 700;
+    }
+
+    /* ===== LINKS SECTION ===== */
+    .links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .link-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 20px 18px;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      text-align: center;
+      transition: box-shadow var(--transition), transform var(--transition), background var(--transition);
+      box-shadow: var(--shadow-sm);
+      cursor: none;
+    }
+    .link-card:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-5px) rotate(1deg);
+    }
+    .link-card:hover .link-label,
+    .link-card:hover .link-name { color: var(--white); }
+
+    .link-icon {
+      width: 44px; height: 44px;
+      background: var(--surface);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      transition: background var(--transition);
+    }
+    .link-card:hover .link-icon { background: rgba(255,255,255,0.2); }
+
+    .link-name {
+      font-family: var(--font-body); font-weight: 700;
+      font-size: 13px; color: var(--text);
+      transition: color var(--transition);
+    }
+    .link-label {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;
+      transition: color var(--transition);
+    }
+
+    /* ===== RESUME FOLDER ===== */
+    .resume-section {
+      display: flex; align-items: flex-start; gap: 48px;
+      flex-wrap: wrap;
+    }
+    .resume-folder-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      cursor: none;
+    }
+    .folder-wrap-label {
+      font-family: var(--font-hand); font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Folder shape */
+    .resume-folder {
+      width: 130px; height: 104px;
+      position: relative;
+      cursor: none;
+      transition: transform var(--transition);
+    }
+    .resume-folder:hover { transform: translateY(-8px) rotate(2deg); }
+
+    .folder-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 88px;
+      background: var(--accent-pale);
+      border-radius: 4px 8px 8px 8px;
+      border: 2px solid var(--accent);
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 6px;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    .resume-folder:hover .folder-body {
+      background: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .folder-tab {
+      position: absolute;
+      top: 0; left: 0;
+      width: 52px; height: 20px;
+      background: var(--accent);
+      border-radius: 6px 6px 0 0;
+      transition: background var(--transition);
+    }
+    .resume-folder:hover .folder-tab { background: var(--accent-dark); }
+
+    .folder-icon-inner { font-size: 26px; }
+    .folder-name {
+      font-family: var(--font-mono); font-size: 11px;
+      font-weight: 700; color: var(--accent-dark);
+      letter-spacing: 0.06em;
+      transition: color var(--transition);
+    }
+    .resume-folder:hover .folder-name { color: var(--white); }
+
+    .resume-note {
+      max-width: 340px;
+    }
+    .resume-note h3 {
+      font-family: var(--font-display); font-size: 1.3rem;
+      margin-bottom: 10px; color: var(--text);
+    }
+    .resume-note p {
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      margin-bottom: 18px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cursor -->
+  <div class="cursor-dot"  id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Side Nav -->
+  <nav class="side-nav">
+    <a href="index.html"      class="nav-tab" title="Home">
+      <span class="nav-icon">🏡</span><span class="nav-label">Home</span>
+    </a>
+    <a href="summary.html"    class="nav-tab active" title="About">
+      <span class="nav-icon">📖</span><span class="nav-label">About</span>
+    </a>
+    <a href="skills.html"     class="nav-tab" title="Skills">
+      <span class="nav-icon">⚡</span><span class="nav-label">Skills</span>
+    </a>
+    <a href="projects.html"   class="nav-tab" title="Projects">
+      <span class="nav-icon">💻</span><span class="nav-label">Projects</span>
+    </a>
+    <a href="experience.html" class="nav-tab" title="Experience">
+      <span class="nav-icon">✨</span><span class="nav-label">Experience</span>
+    </a>
+    <a href="contact.html"    class="nav-tab" title="Contact">
+      <span class="nav-icon">💌</span><span class="nav-label">Contact</span>
+    </a>
+  </nav>
+
+  <!-- Corner Doodles -->
+  <div class="doodle doodle-tl">
+    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+      <circle cx="70" cy="70" r="50" stroke="#F5C4AF" stroke-width="2" stroke-dasharray="8 6"/>
+      <circle cx="70" cy="70" r="30" stroke="#E8A898" stroke-width="1.5"/>
+      <path d="M70 30 Q85 50 70 70 Q55 50 70 30Z" fill="none" stroke="#C8826D" stroke-width="1.5"/>
+      <circle cx="70" cy="30" r="4" fill="#C8826D"/>
+      <circle cx="110" cy="70" r="4" fill="#C8826D"/>
+      <circle cx="70" cy="110" r="4" fill="#C8826D"/>
+      <circle cx="30" cy="70" r="4" fill="#C8826D"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-br">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <path d="M20 100 Q60 20 100 60 Q60 100 20 60 Q60 20 100 100" stroke="#E8A898" stroke-width="2" fill="none"/>
+      <circle cx="20" cy="100" r="5" fill="#C8826D"/>
+      <circle cx="100" cy="60" r="3" fill="#E8A898"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-tr">
+    <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+      <path d="M80 10 L90 50 L50 60 L40 20 Z" stroke="#F5C4AF" stroke-width="2" fill="none"/>
+      <path d="M10 40 L30 30 L40 60 L20 70 Z" stroke="#E8A898" stroke-width="1.5" fill="none"/>
+      <circle cx="60" cy="80" r="6" fill="none" stroke="#C8826D" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-bl">
+    <svg width="100" height="100" viewBox="0 0 100 100" fill="none">
+      <path d="M10 90 C 10 40, 60 10, 90 40 C 70 60 40 80 10 90Z" stroke="#F5C4AF" stroke-width="2" fill="none"/>
+      <circle cx="90" cy="40" r="4" fill="#C8826D"/>
+      <path d="M30 60 Q50 40 70 60" stroke="#E8A898" stroke-width="1.5" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Page Content -->
+  <div class="section-wrapper">
+
+    <!-- HEADER -->
+    <div class="section-eyebrow">// about me</div>
+    <h1 class="section-title">The person<br>behind the <em>code</em></h1>
+    
+
+    <!-- SUMMARY -->
+    <div class="summary-card">
+      <span class="floating-star">✦</span>
+      <p>
+        Motivated B.Tech 2nd year student in Computer Science and Engineering (IoT) at Vellore Institute of Technology,
+        with a strong foundation in Data Structures, Algorithms, and Object-Oriented Programming. Skilled in Java, Python,
+        JavaScript, and SQL, with hands-on experience building full-stack web applications and AI-integrated systems.
+        Passionate about problem-solving and building scalable, maintainable software.
+      </p>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+    <!-- EDUCATION -->
+    <div class="section-eyebrow">// education</div>
+    <h2 class="section-title" style="font-size:2rem; margin-bottom:12px;">My <em>Academic</em> Journey</h2>
+    
+
+    <div class="edu-timeline" id="eduTimeline">
+
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-card">
+          <div class="edu-school">🎓 Vellore Institute of Technology, Vellore, India</div>
+          <div class="edu-degree">B.Tech — Computer Science & Engineering (IoT Specialization)</div>
+          <div class="edu-meta">
+            <span>Jul 2024 – Jul 2028</span>
+            <span class="badge">GPA: 9.33 ✦</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-card">
+          <div class="edu-school">🏫 Delhi Public School, Ranchi</div>
+          <div class="edu-degree">Senior Secondary — PCM with Computer Science</div>
+          <div class="edu-meta">
+            <span>Mar 2022 – Mar 2024</span>
+            <span class="badge">91% ✦</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-dot"></div>
+        <div class="edu-card">
+          <div class="edu-school">🏫 St. Thomas School, Ranchi, India</div>
+          <div class="edu-degree">Secondary School</div>
+          <div class="edu-meta">
+            <span>Mar 2010 – Mar 2022</span>
+            <span class="badge">98.4% ✦</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+    <!-- LINKS + RESUME -->
+    <div class="section-eyebrow">// find me online</div>
+    <h2 class="section-title" style="font-size:2rem; margin-bottom:12px;">Let's <em>Connect</em></h2>
+    <p class="section-sub">I promise I respond... eventually</p>
+
+    <div class="resume-section">
+      <!-- Link Cards -->
+      <div>
+        <div class="links-grid">
+          <a href="https://linkedin.com/in/your-profile" target="_blank" class="link-card">
+            <div class="link-icon">💼</div>
+            <div class="link-name">LinkedIn</div>
+            <div class="link-label">Professional</div>
+          </a>
+          <a href="https://github.com/your-username" target="_blank" class="link-card">
+            <div class="link-icon">🐙</div>
+            <div class="link-name">GitHub</div>
+            <div class="link-label">My Code</div>
+          </a>
+          <a href="mailto:srishti@gmail.com" class="link-card">
+            <div class="link-icon">📧</div>
+            <div class="link-name">Gmail</div>
+            <div class="link-label">Say Hello</div>
+          </a>
+        </div>
+        
+      </div>
+
+      <!-- Resume Folder -->
+      <div class="resume-folder-wrap">
+        <div class="resume-folder clickable" onclick="openResume()" title="Open Resume">
+          <div class="folder-tab"></div>
+          <div class="folder-body">
+            <span class="folder-icon-inner">📄</span>
+            <span class="folder-name">RESUME</span>
+          </div>
+        </div>
+        <span class="folder-wrap-label">click to view ↑</span>
+      </div>
+
+      <div class="resume-note">
+        <h3>My Résumé</h3>
+        <p>
+          All my experience, skills, and projects — neatly compiled into one document.
+        </p>
+        <a href="#" class="btn" onclick="openResume(); return false;">
+          <span>📄</span> View Resume
+        </a>
+      </div>
+    </div>
+
+  </div><!-- end section-wrapper -->
+
+  <!-- Resume Modal -->
+  <div class="modal-overlay" id="resumeModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('resumeModal')">✕</button>
+      <h2 style="font-family:var(--font-display);font-size:1.5rem;margin-bottom:8px;">My Résumé 📄</h2>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:20px;font-family:var(--font-hand);">
+        Here's where you'd see all my hard work!
+      </p>
+      <div style="background:var(--surface);border:2px dashed var(--border);border-radius:var(--r-md);padding:40px;text-align:center;">
+        <p style="font-family:var(--font-hand);font-size:15px;color:var(--text-muted);">
+          🗂️ Add your resume PDF link here!<br><br>
+          <span style="font-family:var(--font-mono);font-size:12px;">
+            Replace this section with:<br>
+            &lt;iframe src="your-resume.pdf"&gt;&lt;/iframe&gt;<br>
+            or an &lt;a href&gt; download link
+          </span>
+        </p>
+      </div>
+      <a href="#" class="btn" style="margin-top:20px;">
+        <span>⬇️</span> Download PDF
+      </a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Animate education items on scroll
+    const eduItems = document.querySelectorAll('.edu-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 150);
+        }
+      });
+    }, { threshold: 0.1 });
+    eduItems.forEach(el => observer.observe(el));
+
+    // Modal
+    function openResume() {
+      document.getElementById('resumeModal').classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+    document.getElementById('resumeModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal('resumeModal');
+    });
+  </script>
+</body>
+</html>

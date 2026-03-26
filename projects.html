@@ -1,90 +1,455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Projects | Srishti</title>
-    <link rel="stylesheet" href="projects-style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srishti ✦ Projects</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== DESKTOP SURFACE ===== */
+    .desktop-bar {
+      background: var(--surface-2);
+      border-radius: var(--r-lg);
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 36px;
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .desktop-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .dot-r { background: #F5C4AF; }
+    .dot-y { background: #E8C890; }
+    .dot-g { background: #B8D4A8; }
+    .desktop-title {
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--text-muted); margin-left: 8px;
+    }
+    .desktop-spacer { flex:1; }
+    .desktop-time {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* ===== FOLDER GRID ===== */
+    .folders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 28px 24px;
+      padding: 12px;
+    }
+
+    /* ===== FOLDER CARD ===== */
+    .folder-card {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      cursor: none;
+      animation: folderDrop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+      text-align: center;
+    }
+    @keyframes folderDrop {
+      from { opacity:0; transform:translateY(-20px) scale(0.8); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .folder-card:nth-child(1) { animation-delay: 0.05s; }
+    .folder-card:nth-child(2) { animation-delay: 0.12s; }
+    .folder-card:nth-child(3) { animation-delay: 0.18s; }
+    .folder-card:nth-child(4) { animation-delay: 0.24s; }
+    .folder-card:nth-child(5) { animation-delay: 0.30s; }
+
+    /* Folder graphic */
+    .folder-graphic {
+      width: 110px; height: 88px;
+      position: relative;
+      transition: transform var(--transition), filter 0.2s;
+    }
+    .folder-card:hover .folder-graphic {
+      transform: translateY(-8px) scale(1.07);
+      filter: drop-shadow(0 12px 20px rgba(58,36,25,0.18));
+    }
+
+    .f-body {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 74px;
+      background: var(--folder-bg);
+      border-radius: 4px 8px 8px 8px;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+    }
+    .f-tab {
+      position: absolute;
+      top: 0; left: 0;
+      width: 44px; height: 17px;
+      background: var(--folder-tab);
+      border-radius: 5px 5px 0 0;
+      border: 2px solid var(--accent);
+      border-bottom: none;
+      transition: background var(--transition);
+    }
+    .folder-card:hover .f-body { background: var(--accent); }
+    .folder-card:hover .f-tab  { background: var(--accent-dark); border-color: var(--accent-dark); }
+    .folder-card:hover .f-body .f-icon { filter: brightness(10); }
+
+    .f-icon { font-size: 30px; transition: filter 0.2s; }
+
+    /* For placeholder folders */
+    .folder-card.placeholder .f-body {
+      background: var(--surface);
+      border-color: var(--border);
+      border-style: dashed;
+    }
+    .folder-card.placeholder .f-tab {
+      background: var(--surface-2);
+      border-color: var(--border);
+      border-style: dashed;
+    }
+    .folder-card.placeholder:hover .f-body {
+      background: var(--surface-2);
+      border-color: var(--accent-pale);
+    }
+
+    .folder-name {
+      font-family: var(--font-body); font-size: 12px;
+      font-weight: 700; color: var(--text);
+      max-width: 120px; line-height: 1.3;
+      transition: color var(--transition);
+    }
+    .folder-card:hover .folder-name { color: var(--accent); }
+
+    .folder-type {
+      font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-muted); letter-spacing: 0.04em;
+    }
+
+    /* ===== PROJECT MODAL ===== */
+    .proj-modal .modal-box {
+      max-width: 640px;
+    }
+    .proj-modal-header {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 20px;
+    }
+    .proj-modal-icon {
+      width: 52px; height: 52px;
+      background: var(--surface);
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink:0;
+      border: 1.5px solid var(--border);
+    }
+    .proj-modal-title {
+      font-family: var(--font-display); font-size: 1.4rem;
+      font-weight: 700; color: var(--text);
+      line-height: 1.2; margin-bottom: 4px;
+    }
+    .proj-modal-sub {
+      font-family: var(--font-hand); font-size: 13px;
+      color: var(--text-muted);
+    }
+    .tech-tags {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 14px 0 20px;
+    }
+    .proj-bullets {
+      list-style: none; padding: 0;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .proj-bullets li {
+      display: flex; gap: 10px;
+      font-size: 14px; color: var(--text); line-height: 1.6;
+    }
+    .proj-bullets li::before {
+      content: '✦';
+      color: var(--accent); flex-shrink:0; margin-top:2px;
+    }
+
+    /* Placeholder modal */
+    .placeholder-content {
+      text-align:center; padding:40px 20px;
+    }
+    .placeholder-content .ph-emoji { font-size:48px; margin-bottom:16px; }
+    .placeholder-content p {
+      font-family: var(--font-hand); font-size:15px;
+      color:var(--text-muted); line-height:1.7;
+    }
+
+    /* ===== DOODLES ===== */
+    .doodle svg { display:block; }
+  </style>
 </head>
 <body>
-    <div class="back-button" onclick="window.location.href='index.html'">
-        <span>← Back to Portfolio</span>
+  <!-- Cursor -->
+  <div class="cursor-dot"  id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Side Nav -->
+  <nav class="side-nav">
+    <a href="index.html"      class="nav-tab" title="Home">
+      <span class="nav-icon">🏡</span><span class="nav-label">Home</span>
+    </a>
+    <a href="summary.html"    class="nav-tab" title="About">
+      <span class="nav-icon">📖</span><span class="nav-label">About</span>
+    </a>
+    <a href="skills.html"     class="nav-tab" title="Skills">
+      <span class="nav-icon">⚡</span><span class="nav-label">Skills</span>
+    </a>
+    <a href="projects.html"   class="nav-tab active" title="Projects">
+      <span class="nav-icon">💻</span><span class="nav-label">Projects</span>
+    </a>
+    <a href="experience.html" class="nav-tab" title="Experience">
+      <span class="nav-icon">✨</span><span class="nav-label">Experience</span>
+    </a>
+    <a href="contact.html"    class="nav-tab" title="Contact">
+      <span class="nav-icon">💌</span><span class="nav-label">Contact</span>
+    </a>
+  </nav>
+
+  <!-- Doodles -->
+  <div class="doodle doodle-tl">
+    <svg width="130" height="130" viewBox="0 0 130 130" fill="none">
+      <path d="M10 10 L40 70 L70 10 L100 70 L130 10" stroke="#F5C4AF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="10"  cy="10"  r="4" fill="#C8826D" opacity="0.5"/>
+      <circle cx="70"  cy="10"  r="4" fill="#C8826D" opacity="0.5"/>
+      <circle cx="130" cy="10"  r="4" fill="#C8826D" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-br">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <rect x="20" y="20" width="80" height="80" rx="8" stroke="#F5C4AF" stroke-width="2" fill="none"/>
+      <rect x="35" y="35" width="50" height="50" rx="5" stroke="#E8A898" stroke-width="1.5" fill="none"/>
+      <circle cx="60" cy="60" r="12" fill="none" stroke="#C8826D" stroke-width="2"/>
+      <text x="52" y="65" fill="#C8826D" font-size="14">✦</text>
+    </svg>
+  </div>
+  <div class="doodle doodle-tr">
+    <svg width="120" height="100" viewBox="0 0 120 100" fill="none">
+      <path d="M10 90 C20 60 40 80 60 50 C80 20 100 60 110 30" stroke="#E8A898" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="50" r="6" fill="#F5C4AF"/>
+      <circle cx="110" cy="30" r="4" fill="#C8826D" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-bl">
+    <svg width="100" height="120" viewBox="0 0 100 120" fill="none">
+      <path d="M10 10 Q50 40 10 70 Q50 100 10 120" stroke="#F5C4AF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M40 10 Q80 40 40 70 Q80 100 40 120" stroke="#E8A898" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <!-- Page Content -->
+  <div class="section-wrapper">
+
+    <!-- HEADER -->
+    <div class="section-eyebrow">// my projects</div>
+    <h1 class="section-title">Things I <em>Built</em></h1>
+    <p class="section-sub">click the folders to peek inside ✦</p>
+
+    <!-- Desktop Bar -->
+    <div class="desktop-bar">
+      <div class="desktop-dot dot-r"></div>
+      <div class="desktop-dot dot-y"></div>
+      <div class="desktop-dot dot-g"></div>
+      <span class="desktop-title">~/srishti/projects</span>
+      <div class="desktop-spacer"></div>
+      <span class="desktop-time" id="desktopTime">loading...</span>
     </div>
 
-    <div class="projects-container">
-        <h1 class="projects-title">My Projects</h1>
-        
-        <div class="files-grid">
-            <!-- Add your project links here -->
-            <div class="file-item" data-link="https://github.com/yourusername/project1">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">E-Commerce Website</p>
-            </div>
+    <!-- Folder Grid -->
+    <div class="folders-grid">
 
-            <div class="file-item" data-link="https://github.com/yourusername/project2">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Weather App</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project3">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Task Manager</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project4">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Portfolio Website</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project5">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Chat Application</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project6">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Blog Platform</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project7">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Machine Learning Model</p>
-            </div>
-
-            <div class="file-item" data-link="https://github.com/yourusername/project8">
-                <div class="file-icon">
-                    <div class="file-corner"></div>
-                    <div class="file-lines"></div>
-                </div>
-                <p class="file-name">Mobile Game</p>
-            </div>
+      <!-- Project 1: PlastiSure -->
+      <div class="folder-card clickable" onclick="openProject('plastisure')" title="PlastiSure">
+        <div class="folder-graphic">
+          <div class="f-tab"></div>
+          <div class="f-body"><span class="f-icon">♻️</span></div>
         </div>
+        <div class="folder-name">PlastiSure</div>
+        <div class="folder-type">AI · CV · Flask</div>
+      </div>
+
+      <!-- Project 2: Weather Dashboard -->
+      <div class="folder-card clickable" onclick="openProject('weather')" title="Weather Dashboard">
+        <div class="folder-graphic">
+          <div class="f-tab"></div>
+          <div class="f-body"><span class="f-icon">🌤️</span></div>
+        </div>
+        <div class="folder-name">Weather Dashboard</div>
+        <div class="folder-type">JS · API · HTML/CSS</div>
+      </div>
+
+      <!-- Project 3: Todo App -->
+      <div class="folder-card clickable" onclick="openProject('todo')" title="To-Do List App">
+        <div class="folder-graphic">
+          <div class="f-tab"></div>
+          <div class="f-body"><span class="f-icon">✅</span></div>
+        </div>
+        <div class="folder-name">To-Do List App</div>
+        <div class="folder-type">HTML · CSS · JS</div>
+      </div>
+
+      <!-- Project 4: Placeholder -->
+      <div class="folder-card placeholder clickable" onclick="openProject('ph4')" title="Add Project">
+        <div class="folder-graphic">
+          <div class="f-tab"></div>
+          <div class="f-body"><span class="f-icon">❓</span></div>
+        </div>
+        <div class="folder-name">Your Project</div>
+        <div class="folder-type">add your stack</div>
+      </div>
+
+      <!-- Project 5: Placeholder -->
+      <div class="folder-card placeholder clickable" onclick="openProject('ph5')" title="Add Project">
+        <div class="folder-graphic">
+          <div class="f-tab"></div>
+          <div class="f-body"><span class="f-icon">🚀</span></div>
+        </div>
+        <div class="folder-name">Your Project</div>
+        <div class="folder-type">add your stack</div>
+      </div>
+
     </div>
 
-    <!-- Custom Cursor -->
-    <div class="custom-cursor"></div>
+  </div>
 
-    <script src="projects-script.js"></script>
+  <!-- PROJECT MODALS -->
+
+  <!-- PlastiSure -->
+  <div class="modal-overlay proj-modal" id="modal-plastisure">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-plastisure')">✕</button>
+      <div class="proj-modal-header">
+        <div class="proj-modal-icon">♻️</div>
+        <div>
+          <div class="proj-modal-title">PlastiSure</div>
+          <div class="proj-modal-sub">Real-Time AI-Driven Plastic Recyclability Verification</div>
+        </div>
+      </div>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">OpenCV</span>
+        <span class="tag">TensorFlow/Keras</span><span class="tag">Flask</span>
+        <span class="tag">REST API</span><span class="tag">SHA-256</span>
+        <span class="tag">JavaScript</span><span class="tag">HTML/CSS</span>
+      </div>
+      <ul class="proj-bullets">
+        <li>Developed a full-stack, browser-based system for real-time plastic recyclability verification using computer vision and machine learning.</li>
+        <li>Implemented live camera frame capture with image preprocessing and segmentation for accurate material analysis.</li>
+        <li>Built AI-based plastic type classification and contamination detection modules.</li>
+        <li>Designed a modular backend architecture to compute recyclability scores using material-specific weighting and cleanliness factors.</li>
+        <li>Generated rule-based recycling recommendations based on computed recyclability metrics.</li>
+        <li>Integrated a blockchain-style audit mechanism using SHA-256 cryptographic hashing to ensure transparent, tamper-evident verification logs.</li>
+        <li>Enabled scalable deployment for recycling facilities, aggregation centers, and smart waste management systems.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Weather Dashboard -->
+  <div class="modal-overlay proj-modal" id="modal-weather">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-weather')">✕</button>
+      <div class="proj-modal-header">
+        <div class="proj-modal-icon">🌤️</div>
+        <div>
+          <div class="proj-modal-title">Weather Dashboard</div>
+          <div class="proj-modal-sub">Real-time weather visualization with API integration</div>
+        </div>
+      </div>
+      <div class="tech-tags">
+        <span class="tag">JavaScript</span><span class="tag">REST API</span>
+        <span class="tag">HTML</span><span class="tag">CSS</span>
+      </div>
+      <ul class="proj-bullets">
+        <li>Developed a responsive weather dashboard that fetches real-time weather data using a public API.</li>
+        <li>Implemented dynamic UI updates based on live data responses.</li>
+        <li>Added robust error handling for failed or invalid API requests.</li>
+        <li>Ensured cross-device compatibility through responsive design principles.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Todo App -->
+  <div class="modal-overlay proj-modal" id="modal-todo">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-todo')">✕</button>
+      <div class="proj-modal-header">
+        <div class="proj-modal-icon">✅</div>
+        <div>
+          <div class="proj-modal-title">To-Do List Web App</div>
+          <div class="proj-modal-sub">Functional task manager with persistent storage</div>
+        </div>
+      </div>
+      <div class="tech-tags">
+        <span class="tag">HTML</span><span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <ul class="proj-bullets">
+        <li>Built a fully functional web-based to-do list application supporting add, edit, and delete operations.</li>
+        <li>Implemented persistent data storage using browser local storage.</li>
+        <li>Applied DOM manipulation techniques for dynamic task updates.</li>
+        <li>Improved responsiveness and user experience using structured HTML and CSS.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Placeholders -->
+  <div class="modal-overlay proj-modal" id="modal-ph4">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-ph4')">✕</button>
+      <div class="placeholder-content">
+        <div class="ph-emoji">🗂️</div>
+        <p>
+          This folder is waiting for your next great project!<br><br>
+          Add your project name, description, tech stack,<br>
+          and bullet points in <code>projects.html</code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay proj-modal" id="modal-ph5">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal('modal-ph5')">✕</button>
+      <div class="placeholder-content">
+        <div class="ph-emoji">🚀</div>
+        <p>
+          Another project incoming!<br><br>
+          Edit <code>projects.html</code> to fill in<br>
+          your project details here ✦
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Clock
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('desktopTime').textContent =
+        now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+    }
+    updateTime(); setInterval(updateTime, 60000);
+
+    // Modal logic
+    function openProject(id) {
+      document.getElementById('modal-' + id).classList.add('open');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+    document.querySelectorAll('.modal-overlay').forEach(m => {
+      m.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+      });
+    });
+
+    // Keyboard close
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+      }
+    });
+  </script>
 </body>
 </html>

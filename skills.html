@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Srishti ✦ Skills</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== SKILL CATEGORY ===== */
+    .skills-page { padding-bottom: 100px; }
+
+    .category-block {
+      margin-bottom: 52px;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .category-block.visible { opacity:1; transform:translateY(0); }
+
+    .category-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 22px;
+    }
+    .category-icon {
+      width: 42px; height: 42px;
+      background: var(--accent);
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+    .category-name {
+      font-family: var(--font-display); font-size: 1.35rem;
+      font-weight: 600; color: var(--text);
+    }
+    .category-line {
+      flex:1; height:1.5px; background:var(--border);
+    }
+
+    /* ===== SKILLS GRID ===== */
+    .skills-grid {
+      display: flex; flex-wrap: wrap; gap: 12px;
+    }
+
+    .skill-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 10px 20px;
+      font-family: var(--font-mono); font-size: 12.5px;
+      color: var(--text);
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+      /* transition for the repel snapping back */
+      transition: box-shadow 0.2s ease, border-color 0.2s ease,
+                  transform 0.15s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: none;
+      letter-spacing: 0.02em;
+    }
+    .skill-chip:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+    .skill-chip .chip-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* Category color accents */
+    .cat-lang  .chip-dot { background: #C8826D; }
+    .cat-lang  .skill-chip:hover { border-color: #C8826D; }
+    .cat-conc  .chip-dot { background: #9A5E48; }
+    .cat-conc  .skill-chip:hover { border-color: #9A5E48; }
+    .cat-tools .chip-dot { background: #B86B6B; }
+    .cat-tools .skill-chip:hover { border-color: #B86B6B; }
+    .cat-soft  .chip-dot { background: #E8A898; }
+    .cat-soft  .skill-chip:hover { border-color: #E8A898; }
+
+    /* ===== FUN STATS ROW ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+      margin-top: 56px;
+    }
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+    .stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-5px); }
+    .stat-num {
+      font-family: var(--font-display); font-size: 2.6rem;
+      font-weight: 700; color: var(--accent); line-height:1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-family: var(--font-hand); font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ===== QUIRK BOX ===== */
+    .quirk-box {
+      background: var(--surface);
+      border: 2px dashed var(--accent-pale);
+      border-radius: var(--r-lg);
+      padding: 28px 32px;
+      margin-top: 48px;
+      display: flex; align-items: center; gap: 20px;
+      flex-wrap: wrap;
+    }
+    .quirk-box .quirk-icon { font-size: 40px; }
+    .quirk-box p {
+      font-family: var(--font-hand); font-size: 15px;
+      color: var(--text-muted); flex:1; line-height: 1.7;
+    }
+    .quirk-box strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <!-- Cursor -->
+  <div class="cursor-dot"  id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Side Nav -->
+  <nav class="side-nav">
+    <a href="index.html"      class="nav-tab" title="Home">
+      <span class="nav-icon">🏡</span><span class="nav-label">Home</span>
+    </a>
+    <a href="summary.html"    class="nav-tab" title="About">
+      <span class="nav-icon">📖</span><span class="nav-label">About</span>
+    </a>
+    <a href="skills.html"     class="nav-tab active" title="Skills">
+      <span class="nav-icon">⚡</span><span class="nav-label">Skills</span>
+    </a>
+    <a href="projects.html"   class="nav-tab" title="Projects">
+      <span class="nav-icon">💻</span><span class="nav-label">Projects</span>
+    </a>
+    <a href="experience.html" class="nav-tab" title="Experience">
+      <span class="nav-icon">✨</span><span class="nav-label">Experience</span>
+    </a>
+    <a href="contact.html"    class="nav-tab" title="Contact">
+      <span class="nav-icon">💌</span><span class="nav-label">Contact</span>
+    </a>
+  </nav>
+
+  <!-- Corner Doodles (peek in on scroll) -->
+  <div class="doodle doodle-tl">
+    <svg width="150" height="150" viewBox="0 0 150 150" fill="none">
+      <!-- Spiral -->
+      <path d="M75 75 Q95 55 95 75 Q95 100 75 100 Q50 100 50 75 Q50 45 75 45 Q105 45 105 75" stroke="#E8A898" stroke-width="2" fill="none"/>
+      <path d="M30 30 L50 50" stroke="#F5C4AF" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="30" cy="30" r="4" fill="#C8826D" opacity="0.5"/>
+      <!-- Stars -->
+      <text x="110" y="50" fill="#F5C4AF" font-size="18">✦</text>
+      <text x="15" y="80" fill="#E8A898" font-size="14">✦</text>
+    </svg>
+  </div>
+  <div class="doodle doodle-br">
+    <svg width="140" height="140" viewBox="0 0 140 140" fill="none">
+      <path d="M140 140 L100 80 L80 120 L60 70 L40 110 L20 60" stroke="#F5C4AF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="100" cy="80" r="5" fill="#C8826D" opacity="0.6"/>
+      <circle cx="60" cy="70" r="4" fill="#E8A898" opacity="0.6"/>
+    </svg>
+  </div>
+  <div class="doodle doodle-tr">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <!-- Flower -->
+      <circle cx="60" cy="60" r="10" fill="#F5C4AF" opacity="0.7"/>
+      <ellipse cx="60" cy="35" rx="8" ry="14" fill="#E8A898" opacity="0.5"/>
+      <ellipse cx="60" cy="85" rx="8" ry="14" fill="#E8A898" opacity="0.5"/>
+      <ellipse cx="35" cy="60" rx="14" ry="8" fill="#E8A898" opacity="0.5"/>
+      <ellipse cx="85" cy="60" rx="14" ry="8" fill="#E8A898" opacity="0.5"/>
+      <text x="85" y="30" fill="#C8826D" font-size="12">✦</text>
+    </svg>
+  </div>
+  <div class="doodle doodle-bl">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <!-- Squiggles -->
+      <path d="M10 110 Q30 90 50 110 Q70 130 90 110 Q110 90 120 100" stroke="#F5C4AF" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M10 80 Q30 60 50 80 Q70 100 90 80" stroke="#E8A898" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="20" cy="40" r="6" fill="none" stroke="#C8826D" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <!-- Page Content -->
+  <div class="section-wrapper skills-page" id="skillsContainer">
+
+    <!-- HEADER -->
+    <div class="section-eyebrow">// skills &amp; tools</div>
+    <h1 class="section-title">Things I <em>Actually</em> Know</h1>
+    <p class="section-sub">hover over them — they're a little shy 👀</p>
+
+    <!-- LANGUAGES -->
+    <div class="category-block cat-lang" data-scroll>
+      <div class="category-header">
+        <div class="category-icon">🗣️</div>
+        <div class="category-name">Languages</div>
+        <div class="category-line"></div>
+      </div>
+      <div class="skills-grid" id="repelGrid">
+        <div class="skill-chip"><span class="chip-dot"></span>Java</div>
+        <div class="skill-chip"><span class="chip-dot"></span>C</div>
+        <div class="skill-chip"><span class="chip-dot"></span>C++</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Python</div>
+        <div class="skill-chip"><span class="chip-dot"></span>JavaScript</div>
+        <div class="skill-chip"><span class="chip-dot"></span>SQL</div>
+        <div class="skill-chip"><span class="chip-dot"></span>HTML</div>
+        <div class="skill-chip"><span class="chip-dot"></span>CSS</div>
+      </div>
+    </div>
+
+    <!-- CONCEPTS -->
+    <div class="category-block cat-conc" data-scroll>
+      <div class="category-header">
+        <div class="category-icon">🧠</div>
+        <div class="category-name">Concepts</div>
+        <div class="category-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-chip"><span class="chip-dot"></span>Data Structures &amp; Algorithms</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Object-Oriented Programming</div>
+        <div class="skill-chip"><span class="chip-dot"></span>REST APIs</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Web Development</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Computer Vision</div>
+      </div>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="category-block cat-tools" data-scroll>
+      <div class="category-header">
+        <div class="category-icon">🔧</div>
+        <div class="category-name">Tools &amp; Frameworks</div>
+        <div class="category-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-chip"><span class="chip-dot"></span>Git</div>
+        <div class="skill-chip"><span class="chip-dot"></span>GitHub</div>
+        <div class="skill-chip"><span class="chip-dot"></span>VS Code</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Flask</div>
+        <div class="skill-chip"><span class="chip-dot"></span>OpenCV</div>
+        <div class="skill-chip"><span class="chip-dot"></span>TensorFlow / Keras</div>
+      </div>
+    </div>
+
+    <!-- SOFT SKILLS -->
+    <div class="category-block cat-soft" data-scroll>
+      <div class="category-header">
+        <div class="category-icon">🌸</div>
+        <div class="category-name">Soft Skills</div>
+        <div class="category-line"></div>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-chip"><span class="chip-dot"></span>Problem-solving</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Communication</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Teamwork</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Leadership</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Event Planning</div>
+        <div class="skill-chip"><span class="chip-dot"></span>Social Media Marketing</div>
+      </div>
+    </div>
+
+    <div class="divider"><span>✦</span></div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Languages known</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9.33</div>
+        <div class="stat-label">Current GPA</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Projects built</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Cups of coffee ☕</div>
+      </div>
+    </div>
+
+    <!-- QUIRK BOX -->
+    <div class="quirk-box">
+      <span class="quirk-icon">🫣</span>
+      <p>
+        <strong>Fun fact:</strong> these skill chips literally run away from your cursor.
+        It's not a bug ; it's a metaphor for how I feel about deadlines .
+      </p>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ---- SCROLL REVEAL ----
+    const blocks = document.querySelectorAll('[data-scroll]');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 120);
+        }
+      });
+    }, { threshold: 0.1 });
+    blocks.forEach(b => revealObs.observe(b));
+    // Also trigger all on load since many visible from start
+    setTimeout(() => blocks.forEach(b => b.classList.add('visible')), 100);
+
+    // ---- MOUSE REPEL EFFECT ----
+    const container = document.getElementById('skillsContainer');
+
+    container.addEventListener('mousemove', (e) => {
+      const chips = document.querySelectorAll('.skill-chip');
+      chips.forEach(chip => {
+        const rect = chip.getBoundingClientRect();
+        const chipCX = rect.left + rect.width / 2;
+        const chipCY = rect.top  + rect.height / 2;
+        const dx = e.clientX - chipCX;
+        const dy = e.clientY - chipCY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 110;
+
+        if (dist < maxDist && dist > 0) {
+          const force = (maxDist - dist) / maxDist;
+          const moveX = -(dx / dist) * force * 55;
+          const moveY = -(dy / dist) * force * 55;
+          chip.style.transform = `translate(${moveX}px, ${moveY}px)`;
+          chip.style.transition = 'transform 0.08s linear, box-shadow 0.2s, border-color 0.2s';
+        } else {
+          chip.style.transform = 'translate(0,0)';
+          chip.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s';
+        }
+      });
+    });
+
+    container.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.skill-chip').forEach(chip => {
+        chip.style.transform = 'translate(0,0)';
+        chip.style.transition = 'transform 0.6s cubic-bezier(0.34,1.56,0.64,1)';
+      });
+    });
+  </script>
+</body>
+</html>
