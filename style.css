@@ -718,3 +718,11 @@ section + section { border-top:1px solid rgba(101,148,177,.2); }
     padding: 20px;
   }
 }
+@media (max-width: 768px) {
+  .summary,
+  .readme,
+  .about-text {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}
